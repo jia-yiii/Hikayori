@@ -1,0 +1,102 @@
+@import "./_variables";
+/* =========================
+   Filled（主按鈕）
+========================= */
+
+.btn-brand-filled {
+  background-color: $btn-3;
+  border: 1.5px solid $btn-3;
+  color: white;
+
+  &:hover:not(:disabled):not(.disabled) {
+    background-color: $btn-1;
+    border-color: $btn-1;
+    color: $text-2;
+  }
+
+  &:active:not(:disabled):not(.disabled) {
+    background-color: $btn-3;
+    border-color: $btn-3;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba($btn-4, 0.3);
+  }
+
+  &:disabled,
+  &.disabled {
+    background-color: $bg-3;
+    border-color: $bg-3;
+    color: $text-5;
+  }
+}
+
+/* =========================
+   Outline（次按鈕）
+========================= */
+
+.btn-brand-outline {
+  background-color: transparent;
+  border: 1.5px solid $btn-4;
+  color: $text-1;
+
+  &:hover:not(:disabled):not(.disabled) {
+    background-color: $complementary-2;
+    border-color: $complementary-2;
+    color: white;
+  }
+
+  &:active:not(:disabled):not(.disabled) {
+    background-color: $primary-2;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba($btn-4, 0.2);
+  }
+
+  &:disabled,
+  &.disabled {
+    border-color: $border-2;
+    color: $text-5;
+    background-color: transparent;
+  }
+}
+
+/* =========================
+   Text（文字按鈕）
+========================= */
+
+.btn-brand-text {
+  background: transparent;
+  border: none;
+  color: $text-1;
+
+  /* 覆蓋 Bootstrap btn padding */
+  padding: 0;
+  min-width: auto;
+  height: auto;
+  border-radius: 0;
+
+  &:hover:not(:disabled):not(.disabled) {
+    text-decoration: underline;
+    color: $text-4;
+    text-decoration-color: $btn-3;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }
+
+  &:active:not(:disabled):not(.disabled) {
+    color: $text-2;
+  }
+
+  &:focus-visible {
+    outline: none;
+    text-decoration: underline;
+  }
+
+  &:disabled,
+  &.disabled {
+    color: $text-5;
+    text-decoration: none;
+  }
+}
