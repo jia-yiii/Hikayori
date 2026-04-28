@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import products from "@/data/nailStyles";
 
 function ProductsPage() {
+  const productFieldLabels = {
+    pd_name: "商品名稱",
+    description: "商品描述",
+  };
   const styleOptions = [
     "全部",
     ...new Set(products.map((product) => product.style)),
@@ -26,6 +29,24 @@ function ProductsPage() {
     length: ["全部"],
     shape: ["全部"],
   });
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const openProductModal = (product) => {
+    setSelectedProduct(product);
+    setActiveImageIndex(0);
+  };
+
+  const closeProductModal = () => {
+    setSelectedProduct(null);
+    setActiveImageIndex(0);
+  };
+
+  const handleModalOverlayClick = (event) => {
+    if (event.target === event.currentTarget) {
+      closeProductModal();
+    }
+  };
 
   const handleFilterChange = (type, value) => {
     setFilters((prev) => {
@@ -60,6 +81,27 @@ function ProductsPage() {
 
     return matchStyle && matchLength && matchShape;
   });
+
+  const selectedImages = selectedProduct?.images ?? [];
+  let productEntries = [];
+
+  if (selectedProduct) {
+    productEntries = Object.entries(selectedProduct).map(([key, value]) => {
+      if (key === "images") {
+        return [key, `${value.length} 張圖片`];
+      }
+
+      return [key, value];
+    });
+    productEntries = productEntries.filter(
+      ([key]) =>
+        key !== "id" &&
+        key !== "images" &&
+        key !== "style" &&
+        key !== "length" &&
+        key !== "shape",
+    );
+  }
 
   return (
     <main>
@@ -117,7 +159,7 @@ function ProductsPage() {
                   <div className="card h-100">
                     <div className="m-3">
                       <img
-                        src={product.img}
+                        src={product.images[0]}
                         className="card-img-top"
                         alt={product.pd_name}
                       />
@@ -125,15 +167,13 @@ function ProductsPage() {
                     <div className="card-body">
                       <div className="d-flex flex-column justify-content-between align-items-center mt-2 mb-8 h-50">
                         <h5 className="card-title">{product.pd_name}</h5>
-                        <div>
+                        <div className="d-flex flex-wrap justify-content-center gap-2">
                           <small className="badge rounded-pill bg-c-2">
                             {product.style}
                           </small>
-                          {"    "}
                           <small className="badge rounded-pill bg-c-4">
                             {product.length}
                           </small>
-                          {"    "}
                           <small className="badge rounded-pill bg-c-6">
                             {product.shape}
                           </small>
@@ -141,9 +181,13 @@ function ProductsPage() {
                       </div>
 
                       <div className="d-flex justify-content-center">
-                        <Link to="#" className="btn btn-brand-filled">
+                        <button
+                          type="button"
+                          className="btn btn-brand-filled"
+                          onClick={() => openProductModal(product)}
+                        >
                           詳細資訊
-                        </Link>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -157,6 +201,121 @@ function ProductsPage() {
           </div>
         </div>
       </section>
+      {selectedProduct ? (
+        <>
+          <div
+            className="modal fade show d-block"
+            tabIndex="-1"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="product-detail-title"
+            onClick={handleModalOverlayClick}
+          >
+            <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+              <div className="modal-content">
+                <div className="modal-header bg-bg-3 px-6">
+                  <h3
+                    className="modal-title fw-bold fs-4 text-t-1"
+                    id="product-detail-title"
+                  >
+                    {selectedProduct.pd_name}
+                  </h3>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    aria-label="Close"
+                    onClick={closeProductModal}
+                  />
+                </div>
+                <div className="modal-body">
+                  <div className="row g-4">
+                    <div className="col-12 col-lg-6">
+                      <div className="border rounded-4 p-3 bg-bg-2">
+                        <img
+                          src={selectedImages[activeImageIndex]}
+                          alt={`${selectedProduct.pd_name} 圖片 ${
+                            activeImageIndex + 1
+                          }`}
+                          className="img-fluid rounded-3 w-100"
+                        />
+                      </div>
+                      <div className="d-flex justify-content-center gap-4 mt-3 flex-wrap">
+                        {selectedImages.map((image, index) => (
+                          <div key={image}>
+                            <button
+                              type="button"
+                              className={`btn p-1 border rounded-3 ${
+                                activeImageIndex === index
+                                  ? "border-c-2 bg-primary-2"
+                                  : "border-light-subtle bg-white"
+                              }`}
+                              onClick={() => setActiveImageIndex(index)}
+                              aria-pressed={activeImageIndex === index}
+                            >
+                              <img
+                                src={image}
+                                alt={`${selectedProduct.pd_name} 縮圖 ${
+                                  index + 1
+                                }`}
+                                className="rounded-2"
+                                style={{
+                                  width: "88px",
+                                  height: "88px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="col-12 col-lg-6">
+                      <dl className="mb-0 px-2">
+                        {productEntries.map(([key, value]) => (
+                          <div
+                            key={key}
+                            className="py-3 border-bottom border-light-subtle"
+                          >
+                            <dt className="fw-semibold text-t-1 mb-1">
+                              {productFieldLabels[key] ?? key}
+                            </dt>
+                            <dd className="mb-0 text-secondary">{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                      <div className="d-flex flex-wrap gap-2 mt-4">
+                        <span className="badge rounded-pill bg-c-2 px-3 py-2">
+                          {selectedProduct.style}
+                        </span>
+                        <span className="badge rounded-pill bg-c-4 px-3 py-2">
+                          {selectedProduct.length}
+                        </span>
+                        <span className="badge rounded-pill bg-c-6 px-3 py-2">
+                          {selectedProduct.shape}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-brand-filled"
+                    onClick={closeProductModal}
+                  >
+                    關閉
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="modal-backdrop fade show"
+            onClick={closeProductModal}
+            aria-hidden="true"
+          />
+        </>
+      ) : null}
     </main>
   );
 }
