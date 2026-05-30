@@ -1,11 +1,6 @@
 @import "@/styles/_tokens";
 .homeHero {
-  background-color: linear-gradient(180deg, $bg-1 0%, $bg-3 100%);
-  background-image: url("@/assets/home/main.png");
-  background-size: cover;
-  background-position: 0% 55%;
-  background-repeat: no-repeat;
-  height: 500px;
+  background: linear-gradient(180deg, $bg-1 0%, $bg-3 100%);
 }
 
 .homeHeroContent {
