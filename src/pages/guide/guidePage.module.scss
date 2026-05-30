@@ -1,0 +1,44 @@
+@import "@/styles/_tokens";
+
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 42%);
+  align-items: center;
+  min-height: 270px;
+  overflow: hidden;
+  border-bottom: 1px solid $border-1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(236, 228, 220, 0.9) 10%,
+      rgba(247, 242, 236, 0.6) 25%,
+      rgba(247, 244, 239, 0) 100%
+    ),
+    url("@/assets/guideBanner.jpg");
+  background-position: 0 54%;
+  background-size: cover;
+  height: 30vh;
+}
+.heroCopy {
+  position: relative;
+  z-index: 1;
+  width: min(100% - 40px, 1120px);
+  margin: 0 auto;
+  padding: 48px;
+
+  h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: 0;
+  }
+
+  p {
+    margin: 0;
+    color: $text-2;
+    font-size: 20px;
+    text-shadow: 1px 1px 3px $primary-2;
+    font-weight: 600;
+    line-height: 1.8;
+  }
+}
