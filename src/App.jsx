@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import HomePage from "@/pages/home/HomePage";
 import GuidePage from "@/pages/guide/GuidePage";
 import OrderPage from "@/pages/order/OrderFormPage";
@@ -16,6 +17,7 @@ function App() {
         {/* <Route path="/pds/:id" element={<ProductDetailPage />} /> */}
         <Route path="/order" element={<OrderPage />} />
       </Routes>
+      <Footer />
     </>
   );
 }

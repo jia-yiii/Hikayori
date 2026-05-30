@@ -1,5 +1,6 @@
 import { useState } from "react";
 import products from "@/data/nailStyles";
+import style from "@/pages/products/productsPage.module.scss";
 
 function ProductsPage() {
   const productFieldLabels = {
@@ -105,12 +106,13 @@ function ProductsPage() {
 
   return (
     <main>
-      <section>
-        <div className="container">
-          <h2>ProductsPage</h2>
+      <section className={style.hero}>
+        <div className={`container ${style.heroCopy}`}>
+          <h1>款式選集</h1>
+          <p>挑選一款適合今天的指尖風格</p>
         </div>
       </section>
-      <section className="container">
+      <section className="container my-10">
         <div>
           <div className="filter-group">
             風格{" "}
@@ -156,7 +158,7 @@ function ProductsPage() {
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <div className="col" key={product.id}>
-                  <div className="card h-100">
+                  <div className="card h-100 py-2">
                     <div className="m-3">
                       <img
                         src={product.images[0]}
