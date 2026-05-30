@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg  bg-bg-4 bar">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          Navbar
+          Hikayori
         </Link>
 
         <button
